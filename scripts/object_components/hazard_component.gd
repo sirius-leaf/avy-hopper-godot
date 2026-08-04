@@ -2,7 +2,7 @@ class_name HazardComponents
 extends Node
 
 
-@export var _knockbackForce := 20.0
+@export var _knockback_force := 20.0
 var _hazard: Area2D
 
 
@@ -16,7 +16,7 @@ func _exit_tree() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	var healthComponent: HealthComponent = body.get_node("HealthComponent")
+	var health_component: HealthComponent = body.get_node("HealthComponent")
 	
-	if healthComponent:
-		healthComponent.take_damage(1, _hazard.global_position, _knockbackForce)
+	if health_component:
+		health_component.take_damage(1, _hazard.global_position, _knockback_force)

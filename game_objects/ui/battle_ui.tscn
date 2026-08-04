@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cksw8ymqje2k3"]
+
+[ext_resource type="Script" uid="uid://d2tjfmn768dl0" path="res://scripts/battle_ui_controller.gd" id="1_oskui"]
+
+[node name="BattleUi" type="CanvasLayer" unique_id=1141951874]
+script = ExtResource("1_oskui")
+
+[node name="Control" type="Control" parent="." unique_id=1784324306]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="Control" unique_id=1464273092]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 272.0
+offset_bottom = 48.0
+max_value = 20.0
+step = 1.0
+show_percentage = false

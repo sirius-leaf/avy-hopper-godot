@@ -6,80 +6,80 @@ extends CharacterBody2D
 @export var _speed := 500.0
 
 @export_group("Jump")
-@export var _jumpBufferTime := 0.15
-@export var _coyoteTime := 0.15
-@export var _maxJump := 2
-@export var _jumpVelocity := -800.0
-@export var _airJumpForce := -600.0
-var _jumpBufferCounter := 0.0
-var _coyoteTimeCounter := 0.0
-var _jumpRemaining: int
-var _isBufferingJump := false
-var _isGrounded: bool
-var _wasGrounded: bool
-var _isGroundCheckHit: bool
-var _wasGroundCheckHit: bool
+@export var _jump_buffer_time := 0.15
+@export var _coyote_time := 0.15
+@export var _max_jump := 2
+@export var _jump_velocity := -800.0
+@export var _air_jump_force := -600.0
+var _jump_buffer_counter := 0.0
+var _coyote_time_counter := 0.0
+var _jump_remaining: int
+var _is_buffering_jump := false
+var _is_grounded: bool
+var _was_grounded: bool
+var _is_ground_check_hit: bool
+var _was_ground_check_hit: bool
 
-@onready var groundCheck: RayCast2D = $GroundCheck
-@onready var playerSprite: Sprite2D = $PlayerSprite
+@onready var _ground_check: RayCast2D = $GroundCheck
+@onready var _player_sprite: Sprite2D = $PlayerSprite
 
 
 func _enter_tree() -> void:
-	_jumpRemaining = _maxJump	
+	_jump_remaining = _max_jump	
 
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	_wasGrounded = _isGrounded
-	_isGrounded = is_on_floor()
+	_was_grounded = _is_grounded
+	_is_grounded = is_on_floor()
 	
-	if not _wasGrounded and _isGrounded:
-		_jumpRemaining = _maxJump
+	if not _was_grounded and _is_grounded:
+		_jump_remaining = _max_jump
 	
-	_wasGroundCheckHit = _isGroundCheckHit
-	_isGroundCheckHit = groundCheck.is_colliding()
+	_was_ground_check_hit = _is_ground_check_hit
+	_is_ground_check_hit = _ground_check.is_colliding()
 	
-	var isLeavingGround := _wasGroundCheckHit and not _isGroundCheckHit
+	var is_leaving_ground := _was_ground_check_hit and not _is_ground_check_hit
 	
-	if is_on_floor() or isLeavingGround:
-		_coyoteTimeCounter = _coyoteTime
+	if is_on_floor() or is_leaving_ground:
+		_coyote_time_counter = _coyote_time
 	else:
-		_coyoteTimeCounter -= delta
+		_coyote_time_counter -= delta
 	
-	if _jumpBufferCounter > 0.0:
-		_jumpBufferCounter -= delta
+	if _jump_buffer_counter > 0.0:
+		_jump_buffer_counter -= delta
 	
 	if Input.is_action_just_pressed("player_jump"):
-		_jumpBufferCounter = _jumpBufferTime
+		_jump_buffer_counter = _jump_buffer_time
 		
-		if groundCheck.is_colliding():
-			_isBufferingJump = true
+		if _ground_check.is_colliding():
+			_is_buffering_jump = true
 	
-	if _jumpBufferCounter > 0.0:
-		if (_coyoteTimeCounter > 0.0 and _jumpRemaining == _maxJump) or isLeavingGround:
-			velocity.y = _jumpVelocity; print("normal jump")
-			_isBufferingJump = false
-			_jumpBufferCounter = 0.0
-			_coyoteTimeCounter = 0.0
+	if _jump_buffer_counter > 0.0:
+		if (_coyote_time_counter > 0.0 and _jump_remaining == _max_jump) or is_leaving_ground:
+			velocity.y = _jump_velocity; print("normal jump")
+			_is_buffering_jump = false
+			_jump_buffer_counter = 0.0
+			_coyote_time_counter = 0.0
 			
-			if not isLeavingGround:
-				_jumpRemaining -= 1
+			if not is_leaving_ground:
+				_jump_remaining -= 1
 			else:
-				_jumpRemaining = _maxJump
-		elif _jumpRemaining > 0 and not _isBufferingJump:
-			velocity.y = _airJumpForce; print("air jump")
-			_isBufferingJump = false
-			_jumpBufferCounter = 0.0
-			_coyoteTimeCounter = 0.0
-			_jumpRemaining -= 1
+				_jump_remaining = _max_jump
+		elif _jump_remaining > 0 and not _is_buffering_jump:
+			velocity.y = _air_jump_force; print("air jump")
+			_is_buffering_jump = false
+			_jump_buffer_counter = 0.0
+			_coyote_time_counter = 0.0
+			_jump_remaining -= 1
 	
 	var direction := Input.get_axis("player_left", "player_right")
 	
 	if direction:
 		velocity.x = direction * _speed
-		playerSprite.flip_h = direction < 0.0
+		_player_sprite.flip_h = direction < 0.0
 	else:
 		velocity.x = move_toward(velocity.x, 0, _speed)
 
