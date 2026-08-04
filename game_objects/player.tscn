@@ -2,21 +2,24 @@
 
 [ext_resource type="Script" uid="uid://cue07d7colyq0" path="res://scripts/player_movement.gd" id="1_a4hy7"]
 [ext_resource type="Texture2D" uid="uid://jwnt7yvnihol" path="res://sprites/_player.png" id="1_rpe43"]
+[ext_resource type="PackedScene" uid="uid://dgxe5rcatrtrw" path="res://game_objects/object_components/health_component.tscn" id="3_hy5qn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t6glp"]
 radius = 24.0
 height = 128.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1185520234]
+[node name="Player" type="CharacterBody2D" unique_id=1185520234 groups=["Player"]]
 script = ExtResource("1_a4hy7")
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=2087097100]
-position = Vector2(1, -63)
 texture = ExtResource("1_rpe43")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=187796542]
-position = Vector2(0, -64)
 shape = SubResource("CapsuleShape2D_t6glp")
 
 [node name="GroundCheck" type="RayCast2D" parent="." unique_id=594921370]
+position = Vector2(0, 64)
 target_position = Vector2(0, 40)
+
+[node name="HealthComponent" parent="." unique_id=1158529943 node_paths=PackedStringArray("_sprite") instance=ExtResource("3_hy5qn")]
+_sprite = NodePath("../PlayerSprite")

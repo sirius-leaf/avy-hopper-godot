@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bn7njlgrb7hxk"]
+
+[ext_resource type="Texture2D" uid="uid://cr3dcoqq6km7g" path="res://sprites/square.png" id="1_2160g"]
+[ext_resource type="PackedScene" uid="uid://blf2g5oyymry" path="res://game_objects/object_components/hazard_component.tscn" id="2_c8ycq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t6glp"]
+size = Vector2(64, 64)
+
+[node name="Hazard" type="Area2D" unique_id=531576696 groups=["Enemy"]]
+
+[node name="Square" type="Sprite2D" parent="." unique_id=1924929516]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_2160g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1404850339]
+shape = SubResource("RectangleShape2D_t6glp")
+
+[node name="HazardComponent" parent="." unique_id=1991278751 instance=ExtResource("2_c8ycq")]

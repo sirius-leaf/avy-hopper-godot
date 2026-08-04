@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://blf2g5oyymry"]
+
+[ext_resource type="Script" uid="uid://hkaxjbmqowdy" path="res://scripts/object_components/hazard_component.gd" id="1_tgic1"]
+
+[node name="HazardComponent" type="Node" unique_id=1991278751 node_paths=PackedStringArray("hazard")]
+script = ExtResource("1_tgic1")
+hazard = NodePath("")

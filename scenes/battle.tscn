@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ju4snk43k6ru" path="res://game_objects/player.tscn" id="1_dn72j"]
 [ext_resource type="Texture2D" uid="uid://cr3dcoqq6km7g" path="res://sprites/square.png" id="2_th188"]
+[ext_resource type="PackedScene" uid="uid://bn7njlgrb7hxk" path="res://game_objects/hazard.tscn" id="3_p1qf1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t6glp"]
 size = Vector2(64, 64)
@@ -33,3 +34,6 @@ shape = SubResource("WorldBoundaryShape2D_t6glp")
 position = Vector2(0, 64)
 scale = Vector2(21.800001, 2)
 texture = ExtResource("2_th188")
+
+[node name="Hazard" parent="." unique_id=531576696 instance=ExtResource("3_p1qf1")]
+position = Vector2(-160, 96)
