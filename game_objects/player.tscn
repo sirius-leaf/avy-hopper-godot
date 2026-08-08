@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dgxe5rcatrtrw" path="res://game_objects/object_components/health_component.tscn" id="3_hy5qn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t6glp"]
-radius = 24.0
-height = 128.0
+radius = 13.0
+height = 120.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1185520234 groups=["Player"]]
 script = ExtResource("1_a4hy7")
@@ -15,6 +15,7 @@ script = ExtResource("1_a4hy7")
 texture = ExtResource("1_rpe43")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=187796542]
+position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_t6glp")
 
 [node name="GroundCheck" type="RayCast2D" parent="." unique_id=594921370]

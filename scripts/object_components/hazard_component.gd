@@ -3,6 +3,7 @@ extends Node
 
 
 @export var _knockback_force := 20.0
+
 var _hazard: Area2D
 
 

@@ -3,6 +3,7 @@ extends CanvasLayer
 
 
 @export var _player: CharacterBody2D
+
 var _player_health: HealthComponent
 
 @onready var _player_health_bar: ProgressBar = $Control/PlayerHealthBar

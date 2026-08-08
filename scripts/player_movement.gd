@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var _max_jump := 2
 @export var _jump_velocity := -800.0
 @export var _air_jump_force := -600.0
+
 var _jump_buffer_counter := 0.0
 var _coyote_time_counter := 0.0
 var _jump_remaining: int

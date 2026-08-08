@@ -1,20 +1,77 @@
 [gd_scene format=3 uid="uid://cie57xqw8sqgt"]
 
 [ext_resource type="PackedScene" uid="uid://ju4snk43k6ru" path="res://game_objects/player.tscn" id="1_dn72j"]
+[ext_resource type="Texture2D" uid="uid://hwxwsrh2bskf" path="res://sprites/_bg.png" id="1_lpir7"]
 [ext_resource type="Texture2D" uid="uid://cr3dcoqq6km7g" path="res://sprites/square.png" id="2_th188"]
 [ext_resource type="PackedScene" uid="uid://bn7njlgrb7hxk" path="res://game_objects/hazard.tscn" id="3_p1qf1"]
+[ext_resource type="Shader" uid="uid://b0n5opsu06p8l" path="res://shaders/wall.tres" id="4_6vh42"]
 [ext_resource type="PackedScene" uid="uid://cksw8ymqje2k3" path="res://game_objects/ui/battle_ui.tscn" id="4_a12nh"]
+
+[sub_resource type="Environment" id="Environment_t6glp"]
+background_mode = 3
+tonemap_mode = 3
+tonemap_exposure = 0.7
+glow_enabled = true
+glow_levels/1 = 1.5
+glow_levels/2 = 0.0
+glow_levels/3 = 0.5
+glow_levels/4 = 0.0
+glow_bloom = 1.0
+glow_blend_mode = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k1nj"]
+shader = ExtResource("4_6vh42")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_t6glp"]
+viewport_path = NodePath("SubViewportContainer/SubViewport")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t6glp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t6glp"]
 size = Vector2(64, 64)
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t6glp"]
-
 [node name="Battle" type="Node2D" unique_id=779794890]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=824491013]
+environment = SubResource("Environment_t6glp")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2057347165]
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D" unique_id=1155916039]
+remote_path = NodePath("../../SubViewportContainer/SubViewport/Camera2D")
+update_rotation = false
+update_scale = false
+
+[node name="BattleUi" parent="." unique_id=1141951874 node_paths=PackedStringArray("_player") instance=ExtResource("4_a12nh")]
+_player = NodePath("../Player")
+
+[node name="Bg" type="Sprite2D" parent="." unique_id=511437187]
+modulate = Color(0.4, 0.4, 0.4, 1)
+z_index = -100
+texture = ExtResource("1_lpir7")
+
 [node name="Player" parent="." unique_id=1185520234 instance=ExtResource("1_dn72j")]
+
+[node name="WallViewport" type="Sprite2D" parent="." unique_id=2131086243]
+z_index = 10
+material = SubResource("ShaderMaterial_4k1nj")
+texture = SubResource("ViewportTexture_t6glp")
+
+[node name="Barrier" type="StaticBody2D" parent="." unique_id=762623664]
+
+[node name="Ground" type="CollisionShape2D" parent="Barrier" unique_id=1395203671]
+position = Vector2(0, 256)
+shape = SubResource("WorldBoundaryShape2D_t6glp")
+
+[node name="WallRight" type="CollisionShape2D" parent="Barrier" unique_id=619273910]
+position = Vector2(512, 0)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_t6glp")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Barrier" unique_id=312941289]
+position = Vector2(-512, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_t6glp")
 
 [node name="Box" type="StaticBody2D" parent="." unique_id=1725942893]
 position = Vector2(320, 224)
@@ -25,19 +82,36 @@ texture = ExtResource("2_th188")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box" unique_id=338847646]
 shape = SubResource("RectangleShape2D_t6glp")
 
-[node name="Ground" type="StaticBody2D" parent="." unique_id=762623664]
-position = Vector2(0, 256)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1395203671]
-shape = SubResource("WorldBoundaryShape2D_t6glp")
-
-[node name="Square" type="Sprite2D" parent="Ground" unique_id=1199218527]
-position = Vector2(0, 64)
-scale = Vector2(21.800001, 2)
-texture = ExtResource("2_th188")
-
 [node name="Hazard" parent="." unique_id=531576696 instance=ExtResource("3_p1qf1")]
 position = Vector2(-160, 96)
 
-[node name="BattleUi" parent="." unique_id=1141951874 node_paths=PackedStringArray("_player") instance=ExtResource("4_a12nh")]
-_player = NodePath("../Player")
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1080312480]
+visibility_layer = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+pivot_offset = Vector2(0, 8)
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1202631051]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport" unique_id=1297469987]
+
+[node name="Ground" type="Sprite2D" parent="SubViewportContainer/SubViewport" unique_id=869995646]
+position = Vector2(0, 320)
+scale = Vector2(20.75, 2)
+texture = ExtResource("2_th188")
+
+[node name="WallRight" type="Sprite2D" parent="SubViewportContainer/SubViewport" unique_id=303023088]
+position = Vector2(608.2102, 6.244311e-05)
+rotation = 1.5707964
+scale = Vector2(20.75, 3.0065699)
+texture = ExtResource("2_th188")
+
+[node name="WallLeft" type="Sprite2D" parent="SubViewportContainer/SubViewport" unique_id=1834099201]
+position = Vector2(-607.9999, -31.999994)
+rotation = 1.5707964
+scale = Vector2(20.75, 3.0065699)
+texture = ExtResource("2_th188")
